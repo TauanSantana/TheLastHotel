@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  thelasthotel.api:
+    image: ${DOCKER_REGISTRY-}thelasthotelapi
+    build:
+      context: .
+      dockerfile: TheLastHotel.API/Dockerfile

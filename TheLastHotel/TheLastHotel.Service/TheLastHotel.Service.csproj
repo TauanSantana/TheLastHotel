@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TheLastHotel.Domain\TheLastHotel.Domain.csproj" />
+    <ProjectReference Include="..\TheLastHotel.Repository\TheLastHotel.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Booking\Command\" />
+    <Folder Include="Booking\Query\" />
+    <Folder Include="Client\Command\" />
+    <Folder Include="Client\Query\" />
+    <Folder Include="Room\Command\" />
+    <Folder Include="Room\Query\" />
+  </ItemGroup>
+
+</Project>
