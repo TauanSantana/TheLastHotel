@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
-
+using System.IO;
+using System.Reflection;
 
 namespace TheLastHotel.API
 {
@@ -24,6 +25,9 @@ namespace TheLastHotel.API
                         Url = new Uri("https://TheLastHotel.ca/en/support"),
                     }
                 });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
             return services;
         }
