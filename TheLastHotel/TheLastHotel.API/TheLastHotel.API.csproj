@@ -21,5 +21,11 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TheLastHotel.Domain\TheLastHotel.Domain.csproj" />
+    <ProjectReference Include="..\TheLastHotel.Repository\TheLastHotel.Repository.csproj" />
+    <ProjectReference Include="..\TheLastHotel.Service\TheLastHotel.Service.csproj" />
+  </ItemGroup>
+
 
 </Project>

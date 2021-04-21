@@ -6,3 +6,23 @@ services:
     build:
       context: .
       dockerfile: TheLastHotel.API/Dockerfile
+    environment:
+      DatabaseName: root
+      ConnectionString: MongoDB2021
+    networks:
+      - alten-compose-network
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: MongoDB2021
+    ports:
+      - "27017:27017"
+    volumes:
+      - /Docker/Volumes/MongoDB:/data/db
+    networks:
+      - alten-compose-network
+
+networks: 
+    alten-compose-network:

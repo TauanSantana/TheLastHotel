@@ -5,6 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.12.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="ServiceStack.Common.Core" Version="5.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TheLastHotel.Domain\TheLastHotel.Domain.csproj" />
   </ItemGroup>
 
