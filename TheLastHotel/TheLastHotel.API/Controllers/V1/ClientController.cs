@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Flunt.Notifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -16,15 +17,25 @@ namespace TheLastHotel.API.Controllers.V1
     public class ClientController : ControllerBase
     {
         readonly IAddClientCommand AddClientCommand;
-        public ClientController(IAddClientCommand addClientCommand)
+        readonly IMapper Mapper;
+        public ClientController(IAddClientCommand addClientCommand, IMapper mapper)
         {
             AddClientCommand = addClientCommand;
+            Mapper = mapper;
         }
 
+        /// <summary>
+        /// Includes a Client
+        /// </summary>
+        /// <response code="200">If the Client was included </response>
+        /// <response code="400">If the Client JSON has any inconsistencies</response> 
         [HttpPost]
-        public async Task<IActionResult> Post([FromServices] IMapper mapper, [FromBody] ClientPostModel model)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Notification), StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Post([FromBody] ClientPostModel model)
         {
-            var client = mapper.Map<Client>(model);
+            var client = Mapper.Map<Client>(model);
             await AddClientCommand.Execute(client);
 
             if (AddClientCommand.HasNotification)

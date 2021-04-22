@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using System;
@@ -25,7 +26,7 @@ namespace TheLastHotel.Repository.Database
             var mongoConnectionUrl = new MongoUrl(configuration.Value.ConnectionString);
             var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
 
-            var mongoClient = new MongoClient(mongoClientSettings);
+           var mongoClient = new MongoClient(mongoClientSettings);
 
             Database = mongoClient.GetDatabase(configuration.Value.DatabaseName);
             

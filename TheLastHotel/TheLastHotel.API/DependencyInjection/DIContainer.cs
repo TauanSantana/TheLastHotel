@@ -26,8 +26,11 @@ namespace TheLastHotel.API.DependencyInjection
         public static void RegisterServices(IServiceCollection services)
         {
             services.AddTransient<IAddBookingCommand, AddBookingCommand>();
+            services.AddTransient<IUpdateBookingCommand, UpdateBookingCommand>();
             services.AddTransient<ICheckIfRoomIsAvailabilityQuery, CheckIfRoomIsAvailabilityQuery>();
             services.AddTransient<IListAllBookingsForClientQuery, ListAllBookingsForClientQuery>();
+            services.AddTransient<IFindBookingByIdQuery, FindBookingByIdQuery>();
+            services.AddTransient<ICancelBookingCommand, CancelBookingCommand>();
 
             services.AddTransient<IAddClientCommand, AddClientCommand>();
             services.AddTransient<IFindClientByIdQuery, FindClientByIdQuery>();

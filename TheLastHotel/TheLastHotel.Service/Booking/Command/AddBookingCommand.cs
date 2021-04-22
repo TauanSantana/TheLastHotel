@@ -57,7 +57,8 @@ namespace TheLastHotel.Service.Booking.Command
                 booking.CreateAt = DateTime.UtcNow;
                 booking.Client = client;
                 booking.Room = room;
-                
+                booking.StartReservationDate = booking.StartReservationDate.Date;
+                booking.EndReservationDate = booking.EndReservationDate.Date;
                 await BookingRepository.Add(booking);
             }
         }
@@ -90,58 +91,16 @@ namespace TheLastHotel.Service.Booking.Command
                 AddNotification("Room", "RoomId is in the wrong format");
                 return;
             }
-
-            if (booking.StartReservationDate.Date == DateTime.MinValue)
-            {
-                AddNotification("Booking", "Invalid date of reservation.");
-                return;
-            }
-
-            if (booking.EndReservationDate.Date == DateTime.MinValue)
-            {
-                AddNotification("Booking", "Invalid reservation end date.");
-                return;
-            }
-
-            if (booking.StartReservationDate.Date < DateTime.UtcNow)
-            {
-                AddNotification("Booking", "Invalid date of reservation.");
-                return;
-            }
-
-            if (booking.EndReservationDate.Date < DateTime.UtcNow)
-            {
-                AddNotification("Booking", "Invalid reservation end date.");
-                return;
-            }
-
-            if (booking.EndReservationDate.Date < booking.StartReservationDate.Date)
-            {
-                AddNotification("Booking", "Invalid reservation end date.");
-                return;
-            }
+           
             #endregion
 
             #region "Business validation"
-            if (booking.StartReservationDate.Date > DateTime.UtcNow.AddDays(30))
-            {
-                AddNotification("Booking", "You can not make reservations more than 30 days before.");
+            
+            var availability = await CheckIfRoomIsAvailabilityQuery.Execute(booking);
+            if (availability.status == false) { 
+                AddNotification(availability.notification);
                 return;
             }
-
-            if ((booking.EndReservationDate - booking.StartReservationDate).TotalDays > 3)
-            {
-                AddNotification("Booking", "The maximum number of days allowed for booking is 3.");
-                return;
-            }
-
-            if ((await CheckIfRoomIsAvailabilityQuery.Execute(booking)) == false)
-            {
-                AddNotification("Room", "Room not available for this date.");
-                return;
-            }
-
-           
 
             #endregion
 

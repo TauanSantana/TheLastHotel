@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Booking\Query\CheckIfRoomIsAvailabilityWhenUpdateQuery.cs" />
+    <Compile Remove="Booking\Query\ICheckIfRoomIsAvailabilityWhenUpdateQuery.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TheLastHotel.Domain\TheLastHotel.Domain.csproj" />
     <ProjectReference Include="..\TheLastHotel.Repository\TheLastHotel.Repository.csproj" />
   </ItemGroup>

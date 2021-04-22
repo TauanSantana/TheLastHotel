@@ -14,6 +14,8 @@ namespace TheLastHotel.API
                 .ForPath(dest => dest.Client.Id, source => source.MapFrom(source => source.ClientId))
                 .ForPath(dest => dest.Room.Id, source => source.MapFrom(source => source.RoomId));
 
+            CreateMap<BookingPutModel, Booking>();
+
             CreateMap<ClientPostModel, Client>();
 
             CreateMap<RoomPostModel, Room>();

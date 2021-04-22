@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Flunt.Notifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,14 +22,31 @@ namespace TheLastHotel.API.Controllers.V1
         readonly IListAllBookingsForClientQuery ListAllBookingsForClientQuery;
         readonly IFindClientByIdQuery FindClientByIdQuery;
         readonly IAddBookingCommand AddBookingCommand;
-        public BookingController(IListAllBookingsForClientQuery listAllBookingsForClientQuery, IFindClientByIdQuery findClientByIdQuery, IAddBookingCommand addBookingCommand)
+        readonly IUpdateBookingCommand UpdateBookingCommand;
+        readonly ICancelBookingCommand CancelBookingCommand;
+        readonly IMapper Mapper;
+        public BookingController(IListAllBookingsForClientQuery listAllBookingsForClientQuery, IFindClientByIdQuery findClientByIdQuery, IAddBookingCommand addBookingCommand,
+            IUpdateBookingCommand updateBookingCommand, ICancelBookingCommand cancelBookingCommand, IMapper mapper)
         {
             ListAllBookingsForClientQuery = listAllBookingsForClientQuery;
             FindClientByIdQuery = findClientByIdQuery;
             AddBookingCommand = addBookingCommand;
+            UpdateBookingCommand = updateBookingCommand;
+            CancelBookingCommand = cancelBookingCommand;
+            Mapper = mapper;
         }
 
+
+        /// <summary>
+        /// List all bookings of client
+        /// </summary>
+        /// <param name="id">Id of Client</param>  
+        /// <response code="200">If any Client was found</response>
+        /// <response code="404">If the Client Id is null or not found</response> 
         [HttpGet("client/{id}")]
+        [ProducesResponseType(typeof(IEnumerable<Booking>),StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
         public async Task<IActionResult> GetAllBookingsForUser(string id)
         {
             if (await ClientValidate(id))
@@ -36,10 +55,18 @@ namespace TheLastHotel.API.Controllers.V1
                 return NotFound("Client not found");
         }
 
+        /// <summary>
+        /// Includes a Booking
+        /// </summary>
+        /// <response code="200">If the Booking was included </response>
+        /// <response code="400">If the Booking JSON has any inconsistencies</response> 
         [HttpPost]
-        public async Task<IActionResult> Post([FromServices]IMapper mapper, [FromBody]BookingPostModel model)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Notification), StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Post([FromBody]BookingPostModel model)
         {
-            var booking = mapper.Map<Booking>(model);
+            var booking = Mapper.Map<Booking>(model);
             await AddBookingCommand.Execute(booking);
 
             if (AddBookingCommand.HasNotification)
@@ -48,27 +75,51 @@ namespace TheLastHotel.API.Controllers.V1
                 return Ok();
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        /// <summary>
+        /// Updates a specific Booking
+        /// </summary>
+        /// <param name="id">Id of Booking</param>
+        /// <param name="model"></param>  
+        /// <response code="200">If the Booking was updated</response>
+        /// <response code="400">If the Booking is null or not found</response> 
+        [HttpPatch("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Notification), StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Update(string id, [FromBody] BookingPutModel model)
         {
+            var booking = Mapper.Map<Booking>(model);
+            booking.Id = id;
+            await UpdateBookingCommand.Execute(booking);
+
+            if (UpdateBookingCommand.HasNotification)
+                return BadRequest(UpdateBookingCommand.CommandNotifications.FirstOrDefault());
+            else
+                return Ok();
         }
 
         /// <summary>
-        /// Deletes a specific Booking.
+        /// Cancel a specific Booking.
         /// </summary>
-        /// <param name="id"></param>  
-        /// <response code="200">If the Booking was deleted</response>
+        /// <param name="id">Id of Booking</param>  
+        /// <response code="200">If the Booking was canceled</response>
         /// <response code="400">If the Booking is null or not found</response>    
-        [HttpDelete("{id}")]
+        [HttpPut("{id}/Cancel")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public void Delete(int id)
+        [ProducesResponseType(typeof(Notification), StatusCodes.Status400BadRequest)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Cancel(string id)
         {
+            await CancelBookingCommand.Execute(id);
+            if (CancelBookingCommand.HasNotification)
+                return BadRequest(CancelBookingCommand.CommandNotifications.FirstOrDefault());
+            else
+                return Ok();
         }
 
         private async Task<bool> ClientValidate(string id)
         {
-            if (!Guid.TryParse(id, out _))
+            if (!ObjectId.TryParse(id, out _))
                 return false;
             else if (await FindClientByIdQuery.Execute(id) == null)
                 return false;
