@@ -242,6 +242,7 @@ namespace TheLastHotel.Repository.Database
                 throw ex;
             }
         }
+
         public async Task<List<TEntity>> GetByFilters(List<Expression<Func<TEntity, bool>>> filter, SortDefinition<TEntity> orderBy = null)
         {
             int currentAttempt = 0;

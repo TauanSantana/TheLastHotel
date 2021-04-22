@@ -10,15 +10,5 @@ namespace TheLastHotel.Repository.Database
         public string DatabaseName { get; set; }
         public string ConnectionString { get; set; }
 
-        public MongoDbSettings()
-        { 
-        }
-
-        public MongoDbSettings(string databaseName, string connectionString)
-        {
-            DatabaseName = databaseName;
-            ConnectionString = connectionString;
-        }
-
     }
 }

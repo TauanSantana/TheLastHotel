@@ -7,8 +7,8 @@ services:
       context: .
       dockerfile: TheLastHotel.API/Dockerfile
     environment:
-      DatabaseName: root
-      ConnectionString: MongoDB2021
+      DatabaseName: TheLastHotelDB
+      ConnectionString: mongodb://root:MongoDB2021@mongo:27017
     networks:
       - alten-compose-network
 

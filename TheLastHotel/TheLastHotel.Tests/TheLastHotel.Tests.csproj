@@ -24,4 +24,14 @@
     <ProjectReference Include="..\TheLastHotel.API\TheLastHotel.API.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Services\Booking\Command\" />
+    <Folder Include="Services\Booking\Query\" />
+    <Folder Include="Services\Client\Command\" />
+    <Folder Include="Services\Client\Query\" />
+    <Folder Include="Services\Room\Command\" />
+    <Folder Include="Services\Room\Query\" />
+  </ItemGroup>
+
 </Project>

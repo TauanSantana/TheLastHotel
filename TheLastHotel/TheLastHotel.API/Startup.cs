@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using TheLastHotel.API.DependencyInjection;
 using TheLastHotel.Repository.Database;
 using TheLastHotel.Repository.Database.Interfaces;
+using AutoMapper;
+using TheLastHotel.Repository;
 
 namespace TheLastHotel.API
 {
@@ -25,23 +23,33 @@ namespace TheLastHotel.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MongoDbSettings>((mongo) => 
-            new MongoDbSettings(Environment.GetEnvironmentVariable("DatabaseName"), 
-            Environment.GetEnvironmentVariable("ConnectionString")));
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddAutoMapper(typeof(Startup));
 
+            services.Configure<MongoDbSettings>(configuration =>
+            {
+                configuration.ConnectionString = Environment.GetEnvironmentVariable("ConnectionString");
+                configuration.DatabaseName = Environment.GetEnvironmentVariable("DatabaseName");
+            });
+            
             services.AddSingleton<IMongoDbSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<MongoDbSettings>>().Value);
 
+            MongoDbPersistence<ConfigurationDbMap>.Configure();
+            DIContainer.RegisterRepository(services);
+            DIContainer.RegisterServices(services);
+
             services.AddHealthChecks();
-            services.AddControllers();
+            services.AddControllers()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
+
             services.AddSwaggerGen();
             services.AddCustomSwaggerConfiguration();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHealthChecks("/health");

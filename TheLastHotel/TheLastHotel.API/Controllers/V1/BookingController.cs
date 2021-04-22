@@ -1,10 +1,15 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using TheLastHotel.API.Models.BookingController;
+using TheLastHotel.Domain;
+using TheLastHotel.Service.Booking.Command;
+using TheLastHotel.Service.Booking.Query;
+using TheLastHotel.Service.Client.Query;
 
 namespace TheLastHotel.API.Controllers.V1
 {
@@ -12,22 +17,35 @@ namespace TheLastHotel.API.Controllers.V1
     [ApiController]
     public class BookingController : ControllerBase
     {
-        [HttpGet]
-        public IEnumerable<string> Get()
+        readonly IListAllBookingsForClientQuery ListAllBookingsForClientQuery;
+        readonly IFindClientByIdQuery FindClientByIdQuery;
+        readonly IAddBookingCommand AddBookingCommand;
+        public BookingController(IListAllBookingsForClientQuery listAllBookingsForClientQuery, IFindClientByIdQuery findClientByIdQuery, IAddBookingCommand addBookingCommand)
         {
-            return new string[] { "value1", "value2" };
+            ListAllBookingsForClientQuery = listAllBookingsForClientQuery;
+            FindClientByIdQuery = findClientByIdQuery;
+            AddBookingCommand = addBookingCommand;
         }
 
-
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("client/{id}")]
+        public async Task<IActionResult> GetAllBookingsForUser(string id)
         {
-            return "value";
+            if (await ClientValidate(id))
+                return Ok(await ListAllBookingsForClientQuery.Execute(id));
+            else
+                return NotFound("Client not found");
         }
 
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromServices]IMapper mapper, [FromBody]BookingPostModel model)
         {
+            var booking = mapper.Map<Booking>(model);
+            await AddBookingCommand.Execute(booking);
+
+            if (AddBookingCommand.HasNotification)
+                return BadRequest(AddBookingCommand.CommandNotifications.FirstOrDefault());
+            else
+                return Ok();
         }
 
         [HttpPut("{id}")]
@@ -46,6 +64,17 @@ namespace TheLastHotel.API.Controllers.V1
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public void Delete(int id)
         {
+        }
+
+        private async Task<bool> ClientValidate(string id)
+        {
+            if (!Guid.TryParse(id, out _))
+                return false;
+            else if (await FindClientByIdQuery.Execute(id) == null)
+                return false;
+            else
+                return true;
+
         }
     }
 }

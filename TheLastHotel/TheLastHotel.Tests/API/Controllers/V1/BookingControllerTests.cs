@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace TheLastHotel.Tests.Controllers.V1
+namespace TheLastHotel.Tests.API.Controllers.V1
 {
     public class BookingControllerTests
     {

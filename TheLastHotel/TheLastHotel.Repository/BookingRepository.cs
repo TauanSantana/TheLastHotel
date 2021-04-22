@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using TheLastHotel.Domain;
+using TheLastHotel.Repository.Database;
+using TheLastHotel.Repository.Database.Interfaces;
 
 namespace TheLastHotel.Repository
 {
-    class BookingRepository
+    public class BookingRepository : BaseRepository<Booking>, IRepository<Booking>
     {
+        public BookingRepository(IMongoContext context) : base(context)
+        {
+        }
     }
 }
