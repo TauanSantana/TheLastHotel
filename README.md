@@ -41,7 +41,7 @@ The project is divided into 6 parts:
 |  |   |
  
  ## Architecture details:
-![alt text](./Doc/images/OnionArchitecture.png "Onion Architecture")
+![alt text](./Doc/Images/OnionArchitecture.png "Onion Architecture")
 <br />
 <p>
 
