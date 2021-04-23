@@ -12,8 +12,8 @@ therefore, .Net Core and Docker have been used since conception.
 * [Docker for Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Non-functional requirements:
-| **[DevOps](./Doc/DevOps.md.md)** | <br />
-| **[Scalability](./Doc/Docker-Compose.md)** |
+| **[DevOps](./Doc/DevOps.md)** | <br />
+| **[Scalability](./Doc/Scalability.md)** |
 ## API Routes:
 
 ATTENTION:
