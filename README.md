@@ -11,7 +11,9 @@ therefore, .Net Core and Docker have been used since conception.
 * [.NET Core 3.1](https://dotnet.microsoft.com/download/dotnet/3.1)
 * [Docker for Desktop](https://www.docker.com/products/docker-desktop)
 
-
+## Non-functional requirements:
+| **[DevOps](./Doc/DevOps.md.md)** | <br />
+| **[Scalability](./Doc/Docker-Compose.md)** |
 ## API Routes:
 
 ATTENTION:
@@ -28,18 +30,18 @@ ATTENTION:
 |GET |/v1​/Room​/{id}​/Availability |Checks availability by date|
 |  |   |
 ## Architecture division:
-The project is divided into 6 parts:
+The project is divided into 6 parts (*Click on the projects below for more details*):
 
 | Project | Description 
 | --- | --- |
-|**docker-compose**|Used to run the project locally (run the docker-compose.yml file that contains the API plus the database for testing)|
-|**TheLastHotel.API**|API that contains all the configuration of routes and that executes the business logic|
-|**TheLastHotel.Domain**|Contains all classes that represent the business, such as: 'Booking', 'Room' and 'Client'|
-|**[TheLastHotel.Repository](./TheLastHotel.Repository.md)**|Contains the generic repository for accessing data and the respective repositories for working with domain classes.|
-|**TheLastHotel.Service**|Contains all the services to persist the data and validate the business rules. Each business context contains the Queries and Commands division implementing the business logic.|
-|**TheLastHotel.Tests**|It contains the unit tests that validate the code of all the previous layers.|
+|**[docker-compose](./Doc/Docker-Compose.md)**|Used to run the project locally (run the docker-compose.yml file that contains the API plus the database for testing)|
+|**[TheLastHotel.API](./Doc/TheLastHotel.API.md)**|API that contains all the configuration of routes and that executes the business logic|
+|**[TheLastHotel.Domain](./Doc/TheLastHotel.Domain.md)**|Contains all classes that represent the business, such as: 'Booking', 'Room' and 'Client'|
+|**[TheLastHotel.Repository](./Doc/TheLastHotel.Repository.md)**|Contains the generic repository for accessing data and the respective repositories for working with domain classes.|
+|**[TheLastHotel.Service](./Doc/TheLastHotel.Service.md)**|Contains all the services to persist the data and validate the business rules. Each business context contains the Queries and Commands division implementing the business logic.|
+|**TheLastHotel.Tests**|It contains the unit tests that validate the code of all the previous layers. *(In progress)*|
 |  |   |
- 
+    
  ## Architecture details:
 ![alt text](./Doc/Images/OnionArchitecture.png "Onion Architecture")
 <br />

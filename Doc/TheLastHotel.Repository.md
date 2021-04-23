@@ -1,4 +1,7 @@
 # TheLastHotel.Repository
+Contains all the repository classes used by the services and commands contained in the "TheLastHotel.Service" project.
+In addition, contains a generic repository that can be used by MongoDB (>= 3.5) and Azure CosmosDB using MongoDB API *(where can scale more easily)* .
+Inside "TheLastHotel.Repository" contains the Database folder. Contains the generic repository and additional settings for queries to be made with Linq and not text *(avoiding problems with misspellings)*.
 
 Description and relationship of files:
  File | Description 
