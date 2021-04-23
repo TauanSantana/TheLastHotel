@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using TheLastHotel.API.Models.ClientController;
 using TheLastHotel.Domain;
 using TheLastHotel.Service.Client.Command;
+using TheLastHotel.Service.Client.Query;
 
 namespace TheLastHotel.API.Controllers.V1
 {
@@ -17,11 +18,13 @@ namespace TheLastHotel.API.Controllers.V1
     public class ClientController : ControllerBase
     {
         readonly IAddClientCommand AddClientCommand;
+        readonly IListAllClientsQuery ListAllClientsQuery;
         readonly IMapper Mapper;
-        public ClientController(IAddClientCommand addClientCommand, IMapper mapper)
+        public ClientController(IAddClientCommand addClientCommand, IMapper mapper, IListAllClientsQuery listAllClientsQuery)
         {
             AddClientCommand = addClientCommand;
             Mapper = mapper;
+            ListAllClientsQuery = listAllClientsQuery;
         }
 
         /// <summary>
@@ -42,6 +45,18 @@ namespace TheLastHotel.API.Controllers.V1
                 return BadRequest(AddClientCommand.CommandNotifications.FirstOrDefault());
             else
                 return Ok();
+        }
+
+        /// <summary>
+        /// Get all Clients
+        /// </summary>
+        /// <response code="200"></response>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Client>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await ListAllClientsQuery.Execute());
         }
     }
 }

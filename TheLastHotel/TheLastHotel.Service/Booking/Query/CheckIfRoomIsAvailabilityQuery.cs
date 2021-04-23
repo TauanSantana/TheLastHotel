@@ -50,8 +50,9 @@ namespace TheLastHotel.Service.Booking.Query
 
             query.Add(x => x.CancellationAt == null);
             query.Add(x => x.Room.Id == booking.Room.Id);
-            query.Add(x => (startDate <= x.StartReservationDate && endDate >= x.EndReservationDate)
-                        || (startDate <= x.EndReservationDate && endDate <= x.EndReservationDate));
+            query.Add(x => (x.StartReservationDate >= startDate && x.StartReservationDate <= endDate)
+                        || (x.EndReservationDate >= startDate && x.EndReservationDate <= endDate));
+
 
             var result = await BookingRepository.GetByFilters(query);
             if (result.Count != 0)

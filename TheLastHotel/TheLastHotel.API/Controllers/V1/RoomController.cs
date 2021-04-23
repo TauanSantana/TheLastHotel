@@ -22,13 +22,16 @@ namespace TheLastHotel.API.Controllers.V1
         readonly IAddRoomCommand AddRoomCommand;
         readonly ICheckIfRoomIsAvailabilityQuery CheckIfRoomIsAvailabilityQuery;
         readonly IFindRoomByIdQuery FindRoomByIdQuery;
+        readonly IListAllRoomsQuery ListAllRoomsQuery;
         readonly IMapper Mapper;
-        public RoomController(IAddRoomCommand addRoomCommand, IMapper mapper, ICheckIfRoomIsAvailabilityQuery checkIfRoomIsAvailabilityQuery, IFindRoomByIdQuery findRoomByIdQuery)
+        public RoomController(IAddRoomCommand addRoomCommand, IMapper mapper, ICheckIfRoomIsAvailabilityQuery checkIfRoomIsAvailabilityQuery, IFindRoomByIdQuery findRoomByIdQuery,
+            IListAllRoomsQuery listAllRoomsQuery)
         {
             AddRoomCommand = addRoomCommand;
             Mapper = mapper;
             CheckIfRoomIsAvailabilityQuery = checkIfRoomIsAvailabilityQuery;
             FindRoomByIdQuery = findRoomByIdQuery;
+            ListAllRoomsQuery = listAllRoomsQuery;
         }
 
         /// <summary>
@@ -79,6 +82,17 @@ namespace TheLastHotel.API.Controllers.V1
 
         }
 
+        /// <summary>
+        /// Get all Rooms
+        /// </summary>
+        /// <response code="200"></response>
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Room>), StatusCodes.Status200OK)]
+        [Produces("application/json")]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await ListAllRoomsQuery.Execute());
+        }
 
         private async Task<(bool Status, string Notification)> ValidateChecksAvailabilityParameters(string roomId)
         {

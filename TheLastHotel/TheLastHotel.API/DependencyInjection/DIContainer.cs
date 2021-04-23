@@ -34,6 +34,7 @@ namespace TheLastHotel.API.DependencyInjection
 
             services.AddTransient<IAddClientCommand, AddClientCommand>();
             services.AddTransient<IFindClientByIdQuery, FindClientByIdQuery>();
+            services.AddTransient<IListAllClientsQuery, ListAllClientsQuery>();
             
             services.AddTransient<IAddRoomCommand, AddRoomCommand>();
             services.AddTransient<IListAllRoomsQuery, ListAllRoomsQuery>();

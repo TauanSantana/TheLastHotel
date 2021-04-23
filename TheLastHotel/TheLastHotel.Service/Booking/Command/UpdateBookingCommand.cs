@@ -50,8 +50,8 @@ namespace TheLastHotel.Service.Booking.Command
                     return;
                 }
 
-                bookingDB.StartReservationDate = booking.StartReservationDate;
-                bookingDB.EndReservationDate = booking.EndReservationDate;
+                bookingDB.StartReservationDate = booking.StartReservationDate.Date;
+                bookingDB.EndReservationDate = booking.EndReservationDate.Date;
 
                 await BookingRepository.Update(bookingDB);
             }

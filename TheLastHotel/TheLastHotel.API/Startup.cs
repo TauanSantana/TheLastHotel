@@ -25,7 +25,6 @@ namespace TheLastHotel.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLocalization(options => options.ResourcesPath = "Resources");
             services.AddAutoMapper(typeof(Startup));
 
             services.Configure<MongoDbSettings>(configuration =>
