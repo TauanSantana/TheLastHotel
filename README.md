@@ -1,4 +1,6 @@
 # The Last Hotel - API
+> ### **Other languages:**
+> [French](/README.fr-CA.md)
 
 "The Last Hotel" is an example project for managing bookings, rooms and hotel customers.
 <br />

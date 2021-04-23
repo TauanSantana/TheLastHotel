@@ -15,7 +15,7 @@ Description and relationship of files:
 |Database\MongoDbPersistence| Class responsible for creating an instance of [RepositoryMapBase] (#RepositoryMapBase). It is executed in the Startup class in the API|
 |Database\MongoDbSettings| Class that implements IMongoDbSettings and contains the properties *DatabaseName* and *ConnectionString* for connection to the database. It is used by [MongoContext](#MongoContext)|
 |Database\Paged| Base class used by [BaseRepository](#BaseRepository) to bring paginated data |
-|Database\ParameterRebinder| Used by the class [Utility](#Utility) | for query composition Linq
+|Database\ParameterRebinder| Used by the class [Utility](#Utility) for query composition Linq | 
 |Database\RepositoryMapBase| Abstract class with signature of the *'Configure'* method to be implemented by the class [ConfigurationDbMap](#ConfigurationDbMap) and called on Startup|
 |Database\Utility| Class with auxiliary methods for composing Linq queries for MongoDB|
 |BookingRepository| Implements [IRepository](#IRepository) and [BaseRepository](#BaseRepository) by passing the domain class "Booking" as a parameter to identify the corresponding Collection in the database.|

@@ -39,9 +39,9 @@ networks:
 ### Details:
 In the *docker-compose.yml* file, two containers were declared, *thelasthotel.api* and *mongo*.
 
-O container *mongo* tem duas variaveis de ambiente que devem ser informadas e os valores serão usados na API.   
-* MONGO_INITDB_ROOT_USERNAME: nome de usuário administrador do banco local.
-* MONGO_INITDB_ROOT_PASSWORD: senha de usuário administrador do banco local.   
+The container * mongo * has two environment variables that must be informed and the values will be used in the API..   
+* MONGO_INITDB_ROOT_USERNAME: local bank administrator username.
+* MONGO_INITDB_ROOT_PASSWORD: local bank administrator user password.   
   
 In the settings of *thelasthotel.api* there are two main points:   
 
