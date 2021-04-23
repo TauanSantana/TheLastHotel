@@ -27,7 +27,8 @@ The entire Model X Domain mapping is performed in the **AutoMappingProfile** cla
 ### Swagger (interactive documentation)
 Interactive documentation is available on this API.<br />
 It is a web portal with all the end points available in the API with a description of the functionality of each one and its respective parameters input and output parameters.<br />
-This portal is available at url /swagger.<br />
+This portal is available at url /swagger.<br /><br />
+
 <img src="../Images/../Doc/Images/swagger_routes.png" alt="Swagger Routes" width="800" height="500"/><br /><br />
 *Details of a POST method.*<br /><br />
 <img src="../Images/../Doc/Images/swagger_postDetails.png" alt="Swagger Routes" width="800" height="500"/>

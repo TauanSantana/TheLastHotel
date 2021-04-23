@@ -18,7 +18,7 @@ There is a division of folders by business context:
 ----**FindRoomByIdQuery**   
     
     
-Another pattern adopted is that of notifications [Reference about the Notification pattern](https://www.martinfowler.com/eaaDev/Notification.html)..    
+Another pattern adopted is that of notifications [Reference about the Notification pattern](https://www.martinfowler.com/eaaDev/Notification.html).    
 When a business rule is breached, a notification is added to the command with the description of the rule.   
 *These messages are used to return to the api.*
 

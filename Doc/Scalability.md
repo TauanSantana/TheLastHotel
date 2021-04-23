@@ -24,9 +24,10 @@ Possibility to change the price layer according to the desired features
 <br>
 <br>
 <img src="../Images/../Doc/Images/webapi_scale.png" alt="Web App Configuration" width="1000" height="450"/><br />
+
 There is the possibility to scale manually and automatically. <br>
-*Manually*: the user adjusts the number of instances he wants.
-*Automatically*: the user creates a rule for monitoring, such as the required CPU limit in % that he wants to start the scale. 
+**Manually**: the user adjusts the number of instances he wants.<br>
+**Automatically**: the user creates a rule for monitoring, such as the required CPU limit in % that he wants to start the scale. 
 <br>
 <br>
 
