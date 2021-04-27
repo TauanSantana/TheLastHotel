@@ -37,7 +37,7 @@ namespace TheLastHotel.Service.Booking.Query
                 return (false, new Notification("Booking", "You can not make reservations more than 30 days before."));
 
 
-            if ((booking.EndReservationDate.Date - booking.StartReservationDate.Date).TotalDays == 3)
+            if ((booking.EndReservationDate.Date - booking.StartReservationDate.Date).TotalDays >= 3)
                 return (false, new Notification("Booking", "The maximum number of days allowed for booking is 3."));
 
 
