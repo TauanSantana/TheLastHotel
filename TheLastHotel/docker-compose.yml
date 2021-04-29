@@ -10,7 +10,7 @@ services:
       DatabaseName: TheLastHotelDB
       ConnectionString: mongodb://root:MongoDB2021@mongo:27017
     networks:
-      - alten-compose-network
+      - compose-network
 
   mongo:
     image: mongo
@@ -25,4 +25,4 @@ services:
       - alten-compose-network
 
 networks: 
-    alten-compose-network:
+    compose-network:
