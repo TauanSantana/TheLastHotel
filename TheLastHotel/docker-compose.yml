@@ -22,7 +22,7 @@ services:
     volumes:
       - /Docker/Volumes/MongoDB:/data/db
     networks:
-      - alten-compose-network
+      - compose-network
 
 networks: 
     compose-network:
